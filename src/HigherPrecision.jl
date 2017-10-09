@@ -7,6 +7,6 @@ module HigherPrecision
 
     include("basics.jl")
     include("double.jl")
-    include("quad.jl")
+    # include("quad.jl")
 
 end # module
