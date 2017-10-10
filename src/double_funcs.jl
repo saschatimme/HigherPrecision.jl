@@ -467,7 +467,7 @@ function Base.sinh(a::DoubleFloat64)
 
 	# The computation below didn't yield a satisfying accuracy
 	# Thus we just fallback to the Float64 formula which yields at least
-	# a 
+	# a
 	return DoubleFloat64(sinh(convert(Float64, a)))
 
 	#
