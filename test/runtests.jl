@@ -17,7 +17,7 @@ for k = 1:5000
     @test cos(x) ≈ cos(big(x)) atol=1e-30
     @test atan(x) ≈ atan(big(x)) atol=1e-30
     @test atan2(y, x) ≈ atan2(big(y), big(x)) atol=1e-30
-    @test tan(x) ≈ tan(big(x)) atol=1e-23
+    @test tan(x) ≈ tan(big(x)) atol=1e-21
 
     sinh_x, cosh_x = sincosh(x)
     if abs(x) > 0.05

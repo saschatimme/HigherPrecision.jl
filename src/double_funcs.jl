@@ -312,7 +312,7 @@ function Base.cos(a::DoubleFloat64)
 end
 
 
-function sincos(a::DoubleFloat64)
+function _sincos(a::DoubleFloat64)
 	if iszero(a)
 		return zero(a), one(a)
 	end
@@ -364,6 +364,12 @@ function sincos(a::DoubleFloat64)
 		-s, -c
 	end
 end
+if VERSION > v"0.7.0-DEV.1319"
+	@inline Base.sincos(a::DoubleFloat64) = _sincos(a)
+else
+	export sincos
+	@inline sincos(a::DoubleFloat64) = _sincos(a)
+end
 
 Base.atan(a::DoubleFloat64) = atan2(a, one(a))
 
@@ -411,11 +417,11 @@ function Base.atan2(y::DoubleFloat64, x::DoubleFloat64)
 
 	if abs(xx.hi) > abs(yy.hi)
 		# Use Newton iteration 1.  z' = z + (y - sin(z)) / cos(z)
-		sin_z, cos_z = sincos(z)
+		sin_z, cos_z = _sincos(z)
 		z += (yy - sin_z) / cos_z
 	else
 		# Use Newton iteration 2.  z' = z - (x - cos(z)) / sin(z)
-		sin_z, cos_z = sincos(z)
+		sin_z, cos_z = _sincos(z)
 		z -= (xx - cos_z) / sin_z
 	end
 
@@ -423,7 +429,7 @@ function Base.atan2(y::DoubleFloat64, x::DoubleFloat64)
 end
 
 function Base.tan(a::DoubleFloat64)
-	s, c = sincos(a)
+	s, c = _sincos(a)
 	s / c
 end
 

@@ -1,4 +1,4 @@
-export DoubleFloat64, sincos, sincosh, square, add, mul, div, sub
+export DoubleFloat64, sincosh, square, add, mul, div, sub
 
 struct DoubleFloat64 <: Real
     hi::Float64
