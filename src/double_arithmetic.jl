@@ -1,22 +1,22 @@
 #
 # ADDITION
 #
-@inline function add(::Type{DoubleFloat64}, a::Float64, b::Float64)
+@inline function double_add(a::Float64, b::Float64)
     hi, lo =  two_sum(a, b)
 
-    DoubleFloat64(hi, lo)
+    FastDouble(hi, lo)
 end
 
-@inline function +(a::DoubleFloat64, b::Float64)
+@inline function +(a::DoubleFloat64{T}, b::Float64) where T
     hi, lo = two_sum(a.hi, b)
     lo += a.lo
     hi, lo = quick_two_sum(hi, lo)
 
-    DoubleFloat64(hi, lo)
+    DoubleFloat64{T}(hi, lo)
 end
 +(a::Float64, b::DoubleFloat64) = b + a
-+(a::Int, b::DoubleFloat64) = b + float(a)
-+(a::DoubleFloat64, b::Int) = a + float(b)
++(a::Integer, b::DoubleFloat64) = b + float(a)
++(a::DoubleFloat64, b::Integer) = a + float(b)
 
 @inline function accurate_add(a::DoubleFloat64, b::DoubleFloat64)
     s1, s2 = two_sum(a.hi, b.hi)
@@ -26,7 +26,7 @@ end
     s2 += t2
     s1, s2 = quick_two_sum(s1, s2);
 
-    DoubleFloat64(s1, s2);
+    AccurateDouble(s1, s2);
 end
 
 @inline function fast_add(a::DoubleFloat64, b::DoubleFloat64)
@@ -34,35 +34,38 @@ end
     lo += (a.lo + b.lo)
     hi, lo = quick_two_sum(hi, lo)
 
-    DoubleFloat64(hi, lo);
+    FastDouble(hi, lo);
 end
 
-+(a::DoubleFloat64, b::DoubleFloat64) = fast_add(a, b)
++(a::FastDouble, b::FastDouble) = fast_add(a, b)
++(a::FastDouble, b::AccurateDouble) = accurate_add(a, b)
++(a::AccurateDouble, b::FastDouble) = accurate_add(a, b)
++(a::AccurateDouble, b::AccurateDouble) = accurate_add(a, b)
 
 
 #
 # SUBSTRACTION
 #
-@inline function sub(::Type{DoubleFloat64}, a::Float64, b::Float64)
+@inline function double_sub(a::Float64, b::Float64)
     hi, lo = two_diff(a, b)
 
-    DoubleFloat64(hi, lo)
+    FastDouble(hi, lo)
 end
 
-@inline function -(a::DoubleFloat64, b::Float64)
+@inline function -(a::DoubleFloat64{T}, b::Float64) where T
     hi, lo = two_diff(a.hi, b)
     lo += a.lo
     hi, lo = quick_two_sum(hi, lo)
 
-    DoubleFloat64(hi, lo)
+    DoubleFloat64{T}(hi, lo)
 end
 
-@inline function -(a::Float64, b::DoubleFloat64)
+@inline function -(a::Float64, b::DoubleFloat64{T}) where T
     hi, lo = two_diff(a, b.hi)
     lo -= b.lo
     hi, lo = quick_two_sum(hi, lo)
 
-    DoubleFloat64(hi, lo)
+    DoubleFloat64{T}(hi, lo)
 end
 
 @inline function fast_sub(a::DoubleFloat64, b::DoubleFloat64)
@@ -71,7 +74,7 @@ end
     lo -= b.lo
     hi, lo = quick_two_sum(hi, lo)
 
-    DoubleFloat64(hi, lo)
+    FastDouble(hi, lo)
 end
 
 @inline function accurate_sub(a::DoubleFloat64, b::DoubleFloat64)
@@ -80,48 +83,53 @@ end
     s2 += t1
     s1, s2 = quick_two_sum(s1, s2);
     s2 += t2
-    s1 = quick_two_sum(s1, s2, s2);
+    s1, s2 = quick_two_sum(s1, s2);
 
-    DoubleFloat64(s1, s2);
+    AccurateDouble(s1, s2);
 end
 
--(a::DoubleFloat64, b::DoubleFloat64) = fast_sub(a, b)
+-(a::FastDouble, b::FastDouble) = fast_sub(a, b)
+-(a::FastDouble, b::AccurateDouble) = accurate_sub(a, b)
+-(a::AccurateDouble, b::FastDouble) = accurate_sub(a, b)
+-(a::AccurateDouble, b::AccurateDouble) = accurate_sub(a, b)
 
 
--(a::DoubleFloat64) = DoubleFloat64(-a.hi, -a.lo)
+-(a::DoubleFloat64{T}) where T = DoubleFloat64{T}(-a.hi, -a.lo)
 
 
 #
 # MULTIPLICATION
 #
-@inline function mul(::Type{DoubleFloat64}, a::Float64, b::Float64)
+@inline function double_mul(a::Float64, b::Float64)
     hi, lo = two_prod(a, b)
-    DoubleFloat64(hi, lo)
+    FastDouble(hi, lo)
 end
 
-@inline function *(a::DoubleFloat64, b::Float64)
+@inline function *(a::DoubleFloat64{T}, b::Float64) where T
     p1, p2 = two_prod(a.hi, b)
-    p2 = muladd(a.lo, b, p2)
+    p2 += a.lo * b
     p1, p2 = quick_two_sum(p1, p2)
 
-    DoubleFloat64(p1, p2)
+    DoubleFloat64{T}(p1, p2)
 end
 *(a::Float64, b::DoubleFloat64) = b * a
 *(a::Int, b::DoubleFloat64) = b * float(a)
 *(a::DoubleFloat64, b::Int) = a * float(b)
 
-@inline function *(a::DoubleFloat64, b::DoubleFloat64)
+
+@inline function *(a::DoubleFloat64{T}, b::DoubleFloat64{S}) where {T, S}
     p1, p2 = two_prod(a.hi, b.hi)
-    p2 += muladd(a.hi, b.lo, a.lo * b.hi)
+    p2 += a.hi * b.lo + a.lo * b.hi
     p1, p2 = quick_two_sum(p1, p2)
 
-    DoubleFloat64(p1, p2)
+    DoubleFloat64{promote_type(T, S)}(p1, p2)
 end
+
 
 #
 # DIVISION
 #
-@inline function div(::Type{DoubleFloat64}, a::Float64, b::Float64)
+@inline function double_div(a::Float64, b::Float64)
     q1 = a / b
     # Compute a - q1 * b
     p1, p2 = two_prod(q1, b)
@@ -133,10 +141,10 @@ end
 
     s, e = quick_two_sum(q1, q2)
 
-    DoubleFloat64(s, e)
+    FastDouble(s, e)
 end
 
-@inline function /(a::DoubleFloat64, b::Float64)
+@inline function /(a::DoubleFloat64{T}, b::Float64) where T
     q1 = a.hi / b
 
     # Compute  this - q1 * d
@@ -151,7 +159,7 @@ end
     # renormalize
     hi, lo = quick_two_sum(q1, q2)
 
-    DoubleFloat64(hi, lo)
+    DoubleFloat64{T}(hi, lo)
 end
 
 
@@ -170,7 +178,7 @@ end
     # renormalize
     hi, lo = quick_two_sum(q1, q2)
 
-    return DoubleFloat64(hi, lo)
+    FastDouble(hi, lo)
 end
 
 @inline function accurate_div(a::DoubleFloat64, b::DoubleFloat64)
@@ -185,14 +193,17 @@ end
 
     q1, q2 = quick_two_sum(q1, q2)
 
-    r = DoubleFloat64(q1, q2) + q3
-    r
+    AccurateDouble(q1, q2) + q3
 end
 
-/(a::DoubleFloat64, b::DoubleFloat64) = fast_div(a, b)
+/(a::FastDouble, b::FastDouble) = fast_div(a, b)
+/(a::FastDouble, b::AccurateDouble) = accurate_div(a, b)
+/(a::AccurateDouble, b::FastDouble) = accurate_div(a, b)
+/(a::AccurateDouble, b::AccurateDouble) = accurate_div(a, b)
+
 /(a::Float64, b::DoubleFloat64) = DoubleFloat64(a) / b
-/(a::Int, b::DoubleFloat64) = float(a) / b
-/(a::DoubleFloat64, b::Int) = a / float(b)
+/(a::Integer, b::DoubleFloat64) = float(a) / b
+/(a::DoubleFloat64, b::Integer) = a / float(b)
 
 
 Base.inv(a::DoubleFloat64) = 1.0 / a
@@ -212,17 +223,17 @@ end
 # POWERS
 #
 
-@inline function square(a::DoubleFloat64)
+@inline function square(a::DoubleFloat64{T}) where T
     p1, p2 = two_square(a.hi)
     p2 += 2.0 * a.hi * a.lo
     p2 += a.lo * a.lo
     hi, lo = quick_two_sum(p1, p2)
-    return DoubleFloat64(hi, lo)
+    return DoubleFloat64{T}(hi, lo)
 end
 
 @inline function square(a::Float64)
     hi, lo = two_square(a)
-    return DoubleFloat64(hi, lo)
+    return FastDouble(hi, lo)
 end
 
 # The compiler optimizes low static powers
@@ -232,7 +243,7 @@ end
 @inline Base.literal_pow(::typeof(^), a::DoubleFloat64, ::Val{3}) = square(a) * a
 
 # Implementation adapted from Base
-function power_by_squaring(x::DoubleFloat64, p::Integer)
+@inline function power_by_squaring(x::DoubleFloat64, p::Integer)
     if p == 1
         return copy(x)
     elseif p == 0
@@ -264,7 +275,7 @@ end
 ^(a::DoubleFloat64, p::Integer) = power_by_squaring(a, p)
 ^(a::DoubleFloat64, b::Real) = exp(b * log(a))
 
-function Base.sqrt(a::DoubleFloat64)
+@inline function Base.sqrt(a::DoubleFloat64{T}) where T
     #= Strategy:  Use Karp's trick:  if x is an approximation
    to sqrt(a), then
 
@@ -284,9 +295,9 @@ function Base.sqrt(a::DoubleFloat64)
     x = inv(sqrt(a.hi))
     ax = a.hi * x
 
-    add(DoubleFloat64, ax, (a - square(ax)).hi * (x * 0.5))
+    convert(DoubleFloat64{T}, double_add(ax, (a - square(ax)).hi * (x * 0.5)))
 end
 
-Base.sqrt(DoubleFloat64, a::Float64) = sqrt(DoubleFloat64(a))
+Base.sqrt(DoubleFloat64, a::Float64) = sqrt(FastDouble(a))
 
 # TODO: Add n-th root?

@@ -80,18 +80,32 @@ end
 end
 
 Base.trunc(a::DoubleFloat64) = a.hi ≥ 0.0 ? floor(a) : ceil(a)
+Base.isinteger(x::DoubleFloat64) = iszero(x - trunc(x))
 
-function Base.rand(::Type{DoubleFloat64})
-    u = rand(UInt64)
+
+function Base.rand(rng, S::Type{DoubleFloat64{T}}) where T<:ComputeMode
+    u = rand(rng, UInt64)
     f = Float64(u)
     uf = UInt64(f)
     ur = uf > u ? uf - u : u - uf
-    DoubleFloat64(5.421010862427522e-20 * f, 5.421010862427522e-20 * Float64(ur))
+    DoubleFloat64{T}(5.421010862427522e-20 * f, 5.421010862427522e-20 * Float64(ur))
 end
-function Base.rand(::Type{DoubleFloat64}, dims::Vararg{Int, N}) where N
-    rands = Array{DoubleFloat64}(dims)
+Base.rand(rng, ::Type{DoubleFloat64}) = rand(rng, FastDouble)
+# Base.rand(rng, ::Type{FastDouble}) = rand(rng, FastDouble)
+# Base.rand(rng, ::Type{AccurateDouble}) = rand(rng, AccurateDouble)
+Base.rand(::Type{FastDouble}) = rand(Base.Random.GLOBAL_RNG, FastDouble)
+Base.rand(::Type{AccurateDouble}) = rand(Base.Random.GLOBAL_RNG, AccurateDouble)
+Base.rand(::Type{DoubleFloat64}) = rand(Base.Random.GLOBAL_RNG, FastDouble)
+
+function Base.rand(rng, T::Type{<:DoubleFloat64}, dims::Vararg{Int, N}) where N
+    rands = Array{T}(dims)
     for l in eachindex(rands)
-        rands[l] = rand(DoubleFloat64)
+        rands[l] = rand(rng, T)
     end
     rands
 end
+Base.rand(T::Type{<:DoubleFloat64}, dims::Vararg{Int, N}) where N = rand(Base.Random.GLOBAL_RNG, T, dims)
+
+Base.rand(::Type{Complex{DoubleFloat64}}) = rand(rng, Complex{FastDouble})
+Base.rand(rng, ::Type{Complex{DoubleFloat64}}) = rand(rng, Complex{FastDouble})
+Base.rand(rng, ::Type{Complex{DoubleFloat64}}, dims) = rand(rng, Complex{FastDouble}, dims)
