@@ -66,7 +66,7 @@ Base.convert(::Type{DoubleFloat64{T}}, x::Integer) where T = DoubleFloat64(x, T)
 
 
 Base.promote_rule(::Type{DoubleFloat64{ComputeFast}}, ::Type{DoubleFloat64{ComputeAccurate}}) = DoubleFloat64{ComputeAccurate}
-Base.promote_rule(::Type{DoubleFloat64{T}}, ::Type{Int}) where T = DoubleFloat64{T}
+Base.promote_rule(::Type{DoubleFloat64{T}}, ::Type{I}) where {T, I<:Integer} = DoubleFloat64{T}
 Base.promote_rule(::Type{DoubleFloat64}, ::Type{BigFloat}) = BigFloat
 Base.promote_rule(::Type{DoubleFloat64{T}}, ::Type{Float64}) where T = DoubleFloat64{T}
 Base.promote_rule(::Type{DoubleFloat64{T}}, ::Type{Float32}) where T = DoubleFloat64{T}
