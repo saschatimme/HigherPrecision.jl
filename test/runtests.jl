@@ -24,7 +24,7 @@ using Base.Test
     @test zero(DoubleFloat64(2.0)) == zero(FastDouble)
 
     @test convert(Integer, DoubleFloat64(2.0)) isa Int64
-    @test 34 ≤ length(string(rand(FastDouble))) ≤ 35
+    @test 32 ≤ length(string(rand(FastDouble))) ≤ 35
 
     @test double_sub(rand(), rand()) isa FastDouble
     @test double_add(rand(), rand()) isa FastDouble
