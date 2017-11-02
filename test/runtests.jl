@@ -78,7 +78,7 @@ using Base.Test
         @test x * y ≈ big(x) * big(y) atol=1e-29
         @test x + y ≈ big(x) + big(y) atol=1e-30
         @test x - y ≈ big(x) - big(y) atol=1e-30
-        @test x / y ≈ big(x) / big(y) atol=1e-28
+        @test x / y ≈ big(x) / big(y) atol=1e-26
         @test x^5 ≈ BigFloat(x)^5 atol=1e-25
 
         @test exp(x) ≈ exp(big(x)) atol=1e-26
