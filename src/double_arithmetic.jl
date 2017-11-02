@@ -128,8 +128,8 @@ end
     DoubleFloat64{T}(p1, p2)
 end
 *(a::Float64, b::DoubleFloat64) = b * a
-*(a::Int, b::DoubleFloat64) = b * float(a)
-*(a::DoubleFloat64, b::Int) = a * float(b)
+*(a::Integer, b::DoubleFloat64) = b * float(a)
+*(a::DoubleFloat64, b::Integer) = a * float(b)
 
 
 @inline function *(a::DoubleFloat64{T}, b::DoubleFloat64{S}) where {T, S}

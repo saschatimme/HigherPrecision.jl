@@ -3,15 +3,74 @@ using Base.Test
 
 
 @testset "DoubleFloat64" begin
+    @test DoubleFloat64(Float32(2.0)) == DoubleFloat64(2.0)
+    @test DoubleFloat64(Float16(2.0)) == DoubleFloat64(2.0)
+    @test DoubleFloat64(2) == DoubleFloat64(2.0)
+    @test DoubleFloat64(big(π)) isa FastDouble
+    @test DoubleFloat64(π) == DoubleFloat64(big(π))
+
+    @test DoubleFloat64(Float32(2.0), ComputeAccurate) isa AccurateDouble
+    @test DoubleFloat64(Float16(2.0), ComputeAccurate) isa AccurateDouble
+    @test DoubleFloat64(2, ComputeAccurate) isa AccurateDouble
+    @test DoubleFloat64(big(π), ComputeAccurate) isa AccurateDouble
+    @test DoubleFloat64(π, ComputeAccurate) isa AccurateDouble
+
+    @test HigherPrecision.hi(DoubleFloat64(2.0)) == 2.0
+    @test HigherPrecision.lo(DoubleFloat64(2.0)) == 0.0
+
+    @test isbits(FastDouble) == true
+    @test isbits(AccurateDouble) == true
+
+    @test zero(DoubleFloat64(2.0)) == zero(FastDouble)
+
+    @test convert(Integer, DoubleFloat64(2.0)) isa Int64
+    @test 34 ≤ length(string(rand(FastDouble))) ≤ 35
+
+    @test double_sub(rand(), rand()) isa FastDouble
+    @test double_add(rand(), rand()) isa FastDouble
+    @test double_div(rand(), rand()) isa FastDouble
+    @test double_mul(rand(), rand()) isa FastDouble
+
+
     x, y = rand(FastDouble), rand(AccurateDouble)
 
     @test x isa FastDouble
     @test y isa AccurateDouble
     @test x * y isa AccurateDouble
+    @test y * x isa AccurateDouble
     @test x / y isa AccurateDouble
+    @test y / x isa AccurateDouble
     @test x - y isa AccurateDouble
+    @test y - x isa AccurateDouble
     @test x + y isa AccurateDouble
+    @test y + x isa AccurateDouble
+    @test x / 3.2 isa FastDouble
+    @test y / 3.2 isa AccurateDouble
 
+    @test x + 2 isa FastDouble
+    @test 2 + x isa FastDouble
+
+    @test x < 2 * x
+    @test x ≤ x
+    @test convert(Float64, x) ≤ x
+    @test x ≤ 2 * convert(Float64, x)
+    @test DoubleFloat64(2.0) == 2.0
+    @test 2.0 == DoubleFloat64(2.0)
+
+    @test isnan(DoubleFloat64(NaN))
+    @test isinf(DoubleFloat64(Inf))
+
+    @test floor(DoubleFloat64(3.2)) == 3.0
+    @test ceil(DoubleFloat64(3.2)) == 4.0
+    @test trunc(DoubleFloat64(3.2)) == 3.0
+    @test isinteger(DoubleFloat64(3.2)) == false
+    @test isinteger(DoubleFloat64(3.0)) == true
+
+    @test rand(Base.Random.GLOBAL_RNG, FastDouble, 4) isa Vector{FastDouble}
+    @test rand(Base.Random.GLOBAL_RNG, Complex{FastDouble}, 4) isa Vector{Complex{FastDouble}}
+    @test rand(Complex{DoubleFloat64}, 3) isa Vector{Complex{FastDouble}}
+    @test rand(Base.Random.GLOBAL_RNG, Complex{DoubleFloat64}, 4) isa Vector{Complex{FastDouble}}
+    @test length(rand(Base.Random.GLOBAL_RNG, FastDouble, 4)) == 4
 
     for k = 1:5000
         x = rand(DoubleFloat64) * 20 - 10
