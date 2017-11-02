@@ -153,6 +153,70 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
+    "location": "reference.html#HigherPrecision.double_add",
+    "page": "Reference",
+    "title": "HigherPrecision.double_add",
+    "category": "Function",
+    "text": "double_add(a::Float64, b::Float64)\n\nAdd two Float64s with DoubleFloat64 precision.\n\n\n\n"
+},
+
+{
+    "location": "reference.html#HigherPrecision.double_sub",
+    "page": "Reference",
+    "title": "HigherPrecision.double_sub",
+    "category": "Function",
+    "text": "double_sub(a::Float64, b::Float64)\n\nSubtract two Float64s with DoubleFloat64 precision.\n\n\n\n"
+},
+
+{
+    "location": "reference.html#HigherPrecision.double_mul",
+    "page": "Reference",
+    "title": "HigherPrecision.double_mul",
+    "category": "Function",
+    "text": "double_mutiply(a::Float64, b::Float64)\n\nMultiply two Float64s with DoubleFloat64 precision.\n\n\n\n"
+},
+
+{
+    "location": "reference.html#HigherPrecision.double_div",
+    "page": "Reference",
+    "title": "HigherPrecision.double_div",
+    "category": "Function",
+    "text": "double_div(a::Float64, b::Float64)\n\nDivide two Float64s with DoubleFloat64 precision.\n\n\n\n"
+},
+
+{
+    "location": "reference.html#HigherPrecision.double_square",
+    "page": "Reference",
+    "title": "HigherPrecision.double_square",
+    "category": "Function",
+    "text": "double_square(x::Float64)\n\nConvert x to a DoubleFloat64 and then compute x*x.\n\n\n\n"
+},
+
+{
+    "location": "reference.html#HigherPrecision.double_sqrt",
+    "page": "Reference",
+    "title": "HigherPrecision.double_sqrt",
+    "category": "Function",
+    "text": "double_sqrt(x::Float64)\n\nConvert x to a DoubleFloat64 and then compute sqrt(x).\n\n\n\n"
+},
+
+{
+    "location": "reference.html#HigherPrecision.sincos",
+    "page": "Reference",
+    "title": "HigherPrecision.sincos",
+    "category": "Function",
+    "text": "sincos(x)\n\nCompute (sin(x), cos(x)). This is faster than computing the values separetly.\n\n\n\n"
+},
+
+{
+    "location": "reference.html#HigherPrecision.sincosh",
+    "page": "Reference",
+    "title": "HigherPrecision.sincosh",
+    "category": "Function",
+    "text": "sincosh(x)\n\nCompute (sinh(x), cosh(x)). This is faster than computing the values separetly.\n\n\n\n"
+},
+
+{
     "location": "reference.html#DoubleFloat64-1",
     "page": "Reference",
     "title": "DoubleFloat64",
