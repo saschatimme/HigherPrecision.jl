@@ -322,7 +322,7 @@ end
 end
 
 """
-    double_square(x::Float64)
+    double_sqrt(x::Float64)
 
 Convert `x` to a DoubleFloat64 and then compute `sqrt(x)`.
 """

@@ -374,7 +374,7 @@ export sincos
 """
 	sincos(x)
 
-Compute `(sin(x), cos(x))`. This is significant faster than computing the values
+Compute `(sin(x), cos(x))`. This is faster than computing the values
 separetly.
 """
 @inline sincos(a::DoubleFloat64) = _sincos(a)
@@ -521,7 +521,7 @@ end
 """
 	sincosh(x)
 
-Compute `(sinh(x), cosh(x))`. This is significant faster than computing the values
+Compute `(sinh(x), cosh(x))`. This is faster than computing the values
 separetly.
 """
 function sincosh(a::DoubleFloat64)
