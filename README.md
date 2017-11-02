@@ -1,5 +1,10 @@
 # Introduction
 
+| **Documentation** | **Build Status** |
+|:-----------------:|:----------------:|
+| [![][docs-stable-img]][docs-stable-url] | [![Build Status][build-img]][build-url] |
+| [![][docs-latest-img]][docs-latest-url] | [![Codecov branch][codecov-img]][codecov-url] |
+
 HigherPrecision defines the following types
 * `DoubleFloat64` - A 128 bit number type with around 30 bits of precision.
 
@@ -49,3 +54,16 @@ This library is a port of the [QD library](http://crd.lbl.gov/~dhbailey/mpdist/)
 Xiaoye S. Li (Lawrence Berkeley National Lab) and David H. Bailey (Lawrence Berkeley National Lab)
 from C++ to Julia. See COPYING for the original modified BSD license. Also see [this](http://web.mit.edu/tabbott/Public/quaddouble-debian/qd-2.3.4-old/docs/qd.pdf) paper
 for some background informations.
+
+
+[docs-stable-img]: https://img.shields.io/badge/docs-stable-blue.svg
+[docs-latest-img]: https://img.shields.io/badge/docs-latest-blue.svg
+[docs-stable-url]: https://saschatimme.github.io/HigherPrecision.jl/stable
+[docs-latest-url]: https://saschatimme.github.io/HigherPrecision.jl/latest
+
+[build-img]: https://travis-ci.org/saschatimme/HigherPrecision.jl.svg?branch=master
+[build-url]: https://travis-ci.org/saschatimme/HigherPrecision.jl
+[winbuild-img]: https://ci.appveyor.com/api/projects/status/h2yw6aoq480e1etd/branch/master?svg=true
+[winbuild-url]: https://ci.appveyor.com/project/saschatimme/fixedpolynomials-jl/branch/master
+[codecov-img]: https://codecov.io/gh/saschatimme/HigherPrecision.jl/branch/master/graph/badge.svg
+[codecov-url]: https://codecov.io/gh/saschatimme/HigherPrecision.jl
