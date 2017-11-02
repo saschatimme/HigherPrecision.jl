@@ -1,3 +1,5 @@
+export sincosh
+
 # Precomputed values
 const inv_fact = [DoubleFloat64(1.0 / BigFloat(factorial(k))) for k = 3:17]
 const ninv_fact = length(inv_fact)
@@ -364,12 +366,19 @@ function _sincos(a::DoubleFloat64)
 		-s, -c
 	end
 end
-if VERSION > v"0.7.0-DEV.1319"
-	@inline Base.sincos(a::DoubleFloat64) = _sincos(a)
-else
-	export sincos
-	@inline sincos(a::DoubleFloat64) = _sincos(a)
-end
+
+# if VERSION > v"0.7.0-DEV.1319"
+# 	@inline Base.sincos(a::DoubleFloat64) = _sincos(a)
+# else
+export sincos
+"""
+	sincos(x)
+
+Compute `(sin(x), cos(x))`. This is significant faster than computing the values
+separetly.
+"""
+@inline sincos(a::DoubleFloat64) = _sincos(a)
+# end
 
 Base.atan(a::DoubleFloat64) = atan2(a, one(a))
 
@@ -509,6 +518,12 @@ function Base.cosh(a::DoubleFloat64)
 	mul_pwr2(ea + inv(ea), 0.5)
 end
 
+"""
+	sincosh(x)
+
+Compute `(sinh(x), cosh(x))`. This is significant faster than computing the values
+separetly.
+"""
 function sincosh(a::DoubleFloat64)
 	if abs(convert(Float64, a)) ≤ 0.05
 		s = sinh(a)

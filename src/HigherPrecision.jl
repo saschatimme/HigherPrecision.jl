@@ -6,6 +6,7 @@ module HigherPrecision
     import Base: +, -, *, /, ^, <, ==, <=
 
     include("basics.jl")
+    include("computemode.jl")
     include("double.jl")
     # include("quad.jl")
 

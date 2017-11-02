@@ -1,6 +1,11 @@
 #
 # ADDITION
 #
+"""
+    double_add(a::Float64, b::Float64)
+
+Add two `Float64`s with `DoubleFloat64` precision.
+"""
 @inline function double_add(a::Float64, b::Float64)
     hi, lo =  two_sum(a, b)
 
@@ -46,6 +51,11 @@ end
 #
 # SUBSTRACTION
 #
+"""
+    double_sub(a::Float64, b::Float64)
+
+Subtract two `Float64`s with `DoubleFloat64` precision.
+"""
 @inline function double_sub(a::Float64, b::Float64)
     hi, lo = two_diff(a, b)
 
@@ -100,6 +110,11 @@ end
 #
 # MULTIPLICATION
 #
+"""
+    double_mutiply(a::Float64, b::Float64)
+
+Multiply two `Float64`s with `DoubleFloat64` precision.
+"""
 @inline function double_mul(a::Float64, b::Float64)
     hi, lo = two_prod(a, b)
     FastDouble(hi, lo)
@@ -129,6 +144,11 @@ end
 #
 # DIVISION
 #
+"""
+    double_div(a::Float64, b::Float64)
+
+Divide two `Float64`s with `DoubleFloat64` precision.
+"""
 @inline function double_div(a::Float64, b::Float64)
     q1 = a / b
     # Compute a - q1 * b
@@ -223,6 +243,11 @@ end
 # POWERS
 #
 
+"""
+    square(x::DoubleFloat64)
+
+Compute `x * x` in a more efficient way.
+"""
 @inline function square(a::DoubleFloat64{T}) where T
     p1, p2 = two_square(a.hi)
     p2 += 2.0 * a.hi * a.lo
@@ -230,18 +255,16 @@ end
     hi, lo = quick_two_sum(p1, p2)
     return DoubleFloat64{T}(hi, lo)
 end
+square(a::Float64) = double_square(a)
+"""
+    double_square(x::Float64)
 
-@inline function square(a::Float64)
+Convert `x` to a DoubleFloat64 and then compute `x*x`.
+"""
+@inline function double_square(a::Float64)
     hi, lo = two_square(a)
     return FastDouble(hi, lo)
 end
-
-# The compiler optimizes low static powers
-# See here https://github.com/JuliaLang/julia/blob/b83c228a6de9a3d1a22afa5d019da770ff355427/base/intfuncs.jl#L223-L235
-@inline Base.literal_pow(::typeof(^), a::DoubleFloat64, ::Val{1}) = a
-@inline Base.literal_pow(::typeof(^), a::DoubleFloat64, ::Val{2}) = square(a)
-@inline Base.literal_pow(::typeof(^), a::DoubleFloat64, ::Val{3}) = square(a) * a
-
 # Implementation adapted from Base
 @inline function power_by_squaring(x::DoubleFloat64, p::Integer)
     if p == 1
@@ -298,6 +321,11 @@ end
     convert(DoubleFloat64{T}, double_add(ax, (a - square(ax)).hi * (x * 0.5)))
 end
 
-Base.sqrt(DoubleFloat64, a::Float64) = sqrt(FastDouble(a))
+"""
+    double_square(x::Float64)
+
+Convert `x` to a DoubleFloat64 and then compute `sqrt(x)`.
+"""
+double_sqrt(a::Float64) = sqrt(FastDouble(a))
 
 # TODO: Add n-th root?
