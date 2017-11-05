@@ -23,6 +23,8 @@ end
 Base.abs(a::DoubleFloat64) = a.hi < 0.0 ? -a : a
 
 Base.eps(::Type{DoubleFloat64}) = 4.93038065763132e-32 # 2^-104
+Base.eps(::Type{FastDouble}) = 4.93038065763132e-32 # 2^-104
+Base.eps(::Type{AccurateDouble}) = 4.93038065763132e-32 # 2^-104
 
 Base.realmin(::Type{DoubleFloat64}) = 2.0041683600089728e-292 # = 2^(-1022 + 53)
 Base.realmax(::Type{DoubleFloat64}) = DoubleFloat64(1.79769313486231570815e+308, 9.97920154767359795037e+291);

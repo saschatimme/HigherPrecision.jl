@@ -3,9 +3,9 @@ double_square, double_add, double_mul, double_div, double_sub, double_sqrt
 
 
 """
-    DoubleFloat64(x [, mode::ComputeMode])
+    DoubleFloat64(x [, mode::ComputeMode]) <: AbstractFloat
 """
-struct DoubleFloat64{T<:ComputeMode} <: Real
+struct DoubleFloat64{T<:ComputeMode} <: AbstractFloat
     hi::Float64
     lo::Float64
 end
@@ -67,9 +67,11 @@ Base.convert(::Type{T}, a::DoubleFloat64) where {T<:Integer} = convert(T, a.hi)
 Base.convert(::Type{Integer}, a::DoubleFloat64) = convert(Int64, a.hi)
 Base.convert(::Type{BigInt}, a::DoubleFloat64) = convert(BigInt, big(a.hi) + big(a.lo))
 
-Base.convert(::Type{DoubleFloat64{T}}, x::DoubleFloat64{S}) where {T, S} = DoubleFloat64{T}(x.hi, x.lo)
-Base.convert(::Type{DoubleFloat64{T}}, x::DoubleFloat64{T}) where {T} = x
-Base.convert(::Type{DoubleFloat64{T}}, x::AbstractFloat) where T = DoubleFloat64(x, T)
+Base.convert(::Type{FastDouble}, x::AccurateDouble) = FastDouble(x.hi, x.lo)
+Base.convert(::Type{AccurateDouble}, x::FastDouble) = AccurateDouble(x.hi, x.lo)
+Base.convert(::Type{FastDouble}, x::FastDouble) = x
+Base.convert(::Type{AccurateDouble}, x::AccurateDouble) = x
+Base.convert(::Type{DoubleFloat64{T}}, x::AbstractFloat) where {T<:ComputeMode} = DoubleFloat64(x, T)
 Base.convert(::Type{DoubleFloat64{T}}, x::Irrational) where T = DoubleFloat64(x, T)
 Base.convert(::Type{DoubleFloat64{T}}, x::Integer) where T = DoubleFloat64(x, T)
 

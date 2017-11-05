@@ -156,6 +156,8 @@ using Base.Test
 
 
     @test eps(DoubleFloat64) == 4.93038065763132e-32 # 2^-104
+    @test eps(FastDouble) == 4.93038065763132e-32 # 2^-104
+    @test eps(AccurateDouble) == 4.93038065763132e-32 # 2^-104
     @test realmin(DoubleFloat64) > realmin(Float64)
     @test realmax(DoubleFloat64) > realmax(Float64)
 end
