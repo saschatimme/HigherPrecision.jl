@@ -66,6 +66,8 @@ using Base.Test
     @test isinteger(DoubleFloat64(3.2)) == false
     @test isinteger(DoubleFloat64(3.0)) == true
 
+    @test DoubleFloat64(0.0)^0.14 == 1.0
+
     @test rand(Base.Random.GLOBAL_RNG, FastDouble, 4) isa Vector{FastDouble}
     @test rand(Base.Random.GLOBAL_RNG, Complex{FastDouble}, 4) isa Vector{Complex{FastDouble}}
     @test rand(Complex{DoubleFloat64}, 3) isa Vector{Complex{FastDouble}}
@@ -79,6 +81,8 @@ using Base.Test
         @test x + y ≈ big(x) + big(y) atol=1e-30
         @test x - y ≈ big(x) - big(y) atol=1e-30
         @test x / y ≈ big(x) / big(y) atol=1e-26
+        u = rand()
+        @test x / u ≈ big(x) / big(u) atol=1e-26
         @test x^5 ≈ BigFloat(x)^5 atol=1e-25
 
         @test exp(x) ≈ exp(big(x)) atol=1e-26
@@ -154,7 +158,7 @@ using Base.Test
     end
 
 
-
+    @test eps(DoubleFloat64(1.0)) == 4.93038065763132e-32 # 2^-104
     @test eps(DoubleFloat64) == 4.93038065763132e-32 # 2^-104
     @test eps(FastDouble) == 4.93038065763132e-32 # 2^-104
     @test eps(AccurateDouble) == 4.93038065763132e-32 # 2^-104

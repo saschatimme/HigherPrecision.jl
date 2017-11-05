@@ -169,7 +169,7 @@ end
 
     # Compute  this - q1 * d
     p1, p2 = two_prod(q1, b)
-    s, e = two_diff(a.lo, p1)
+    s, e = two_diff(a.hi, p1)
     e += a.lo
     e -= p2
 
@@ -296,7 +296,7 @@ end
 end
 
 ^(a::DoubleFloat64, p::Integer) = power_by_squaring(a, p)
-^(a::DoubleFloat64, b::Real) = exp(b * log(a))
+^(a::DoubleFloat64, b::Real) = iszero(a) ? one(a) : exp(b * log(a))
 
 @inline function Base.sqrt(a::DoubleFloat64{T}) where T
     #= Strategy:  Use Karp's trick:  if x is an approximation
@@ -309,6 +309,7 @@ end
    only half the precision.
    =#
     if a.hi < 0
+        @show a.hi, a.lo
         throw(DomainError("sqrt will only return a complex result if called with a complex argument."))
     end
     if iszero(a)
