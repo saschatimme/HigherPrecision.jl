@@ -5,7 +5,7 @@
 | [![][docs-stable-img]][docs-stable-url] | [![Build Status][build-img]][build-url] |
 | [![][docs-latest-img]][docs-latest-url] | [![Codecov branch][codecov-img]][codecov-url] |
 
-HigherPrecision defines the following types
+HigherPrecision defines the following subtypes of `AbstractFloat`
 * `DoubleFloat64` - A 128 bit number type with around 30 bits of precision.
 
 These types are intended as a drop-in replacement for `Float64` and `BigFloat`.
