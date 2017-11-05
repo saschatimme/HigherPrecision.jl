@@ -13,7 +13,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Introduction",
     "title": "Introduction",
     "category": "section",
-    "text": "HigherPrecision defines the following typesDoubleFloat64 - A 128 bit number type with around 30 bits of precision.These types are intended as a drop-in replacement for Float64 and BigFloat. Besides the basic arithmetic functions the following mathematical functions are defined:sin, cos, inv, rem, divrem, mod, sqrt, exp, log, sin, cos, tan, asin, acos, atan, atan2, sinh, cosh, sincos, sincosh, tanhBasic arithmetic operations are significantly faster than BigFloat, but the above mathematical functions can be slower than the corresponding BigFloat methods. In general this still should yield a significant performance boost.note: Note\nThis library needs FMA instructions. If your processor supports these, you probably still need to rebuild your Julia system image. This can be done as followsinclude(joinpath(dirname(JULIA_HOME),\"share\",\"julia\",\"build_sysimg.jl\")); build_sysimg(force=true)If you are on Windows you need to run the following code firstPkg.add(\"WinRPM\");\nWinRPM.install(\"gcc\", yes=true)\nWinRPM.install(\"winpthreads-devel\", yes=true)"
+    "text": "HigherPrecision defines the following subtypes of AbstractFloatDoubleFloat64 - A 128 bit number type with around 30 bits of precision.These types are intended as a drop-in replacement for Float64 and BigFloat. Besides the basic arithmetic functions the following mathematical functions are defined:sin, cos, inv, rem, divrem, mod, sqrt, exp, log, sin, cos, tan, asin, acos, atan, atan2, sinh, cosh, sincos, sincosh, tanhBasic arithmetic operations are significantly faster than BigFloat, but the above mathematical functions can be slower than the corresponding BigFloat methods. In general this still should yield a significant performance boost.note: Note\nThis library needs FMA instructions. If your processor supports these, you probably still need to rebuild your Julia system image. This can be done as followsinclude(joinpath(dirname(JULIA_HOME),\"share\",\"julia\",\"build_sysimg.jl\")); build_sysimg(force=true)If you are on Windows you need to run the following code firstPkg.add(\"WinRPM\");\nWinRPM.install(\"gcc\", yes=true)\nWinRPM.install(\"winpthreads-devel\", yes=true)"
 },
 
 {
@@ -93,7 +93,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Compute mode",
     "title": "HigherPrecision.DoubleFloat64",
     "category": "Type",
-    "text": "DoubleFloat64(x [, mode::ComputeMode])\n\n\n\n"
+    "text": "DoubleFloat64(x [, mode::ComputeMode]) <: AbstractFloat\n\n\n\n"
 },
 
 {
