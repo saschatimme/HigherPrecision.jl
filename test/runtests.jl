@@ -9,6 +9,8 @@ using Base.Test
     @test DoubleFloat64(big(π)) isa FastDouble
     @test DoubleFloat64(π) == DoubleFloat64(big(π))
 
+    @test DoubleFloat64(2 // 3) isa FastDouble
+    @test DoubleFloat64(2 // 3, ComputeAccurate) isa AccurateDouble
     @test DoubleFloat64(Float32(2.0), ComputeAccurate) isa AccurateDouble
     @test DoubleFloat64(Float16(2.0), ComputeAccurate) isa AccurateDouble
     @test DoubleFloat64(2, ComputeAccurate) isa AccurateDouble
@@ -25,6 +27,16 @@ using Base.Test
 
     @test convert(Integer, DoubleFloat64(2.0)) isa Int64
     @test 32 ≤ length(string(rand(FastDouble))) ≤ 40
+
+    @test convert(DoubleFloat64, 2.0) isa FastDouble
+    @test convert(DoubleFloat64, Float32(2.0)) isa FastDouble
+    @test convert(DoubleFloat64, Float16(2.0)) isa FastDouble
+    @test convert(DoubleFloat64, 2) isa FastDouble
+    @test convert(DoubleFloat64, π) isa FastDouble
+
+    @test promote_type(DoubleFloat64, Float64) == FastDouble
+    @test promote_type(DoubleFloat64, Float32) == FastDouble
+    @test promote_type(DoubleFloat64, Float16) == FastDouble
 
     @test double_sub(rand(), rand()) isa FastDouble
     @test double_add(rand(), rand()) isa FastDouble
