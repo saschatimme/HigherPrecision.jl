@@ -309,7 +309,6 @@ end
    only half the precision.
    =#
     if a.hi < 0
-        @show a.hi, a.lo
         throw(DomainError("sqrt will only return a complex result if called with a complex argument."))
     end
     if iszero(a)
