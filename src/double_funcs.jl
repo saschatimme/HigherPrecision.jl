@@ -81,7 +81,7 @@ function Base.exp(a::DoubleFloat64)
 end
 
 
-function Base.log(a::DoubleFloat64)
+function Base.log(a::DoubleFloat64{T}) where {T}
 	#= Strategy.  The Taylor series for log converges much more
 	 slowly than that of exp, due to the lack of the factorial
 	 term in the denominator.  Hence this routine instead tries
@@ -99,7 +99,7 @@ function Base.log(a::DoubleFloat64)
 	 approximately doubles the number of digits per iteration. =#
 
 	if isone(a)
-		return zero(DoubleFloat64)
+		return zero(DoubleFloat64{T})
 	end
 
 	if a.hi ≤ 0.0
