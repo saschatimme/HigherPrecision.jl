@@ -56,11 +56,11 @@ lo(x::DoubleFloat64) = x.lo
 
 Base.isbits(::DoubleFloat64) = true
 
-zero(::DoubleFloat64{T}) where T = DoubleFloat64{T}(0.0, 0.0)
-zero(::Type{DoubleFloat64{T}}) where T = DoubleFloat64{T}(0.0, 0.0)
+Base.zero(::DoubleFloat64{T}) where T = DoubleFloat64{T}(0.0, 0.0)
+Base.zero(::Type{DoubleFloat64{T}}) where T = DoubleFloat64{T}(0.0, 0.0)
 
-one(::DoubleFloat64{T}) where T = DoubleFloat64{T}(1.0, 0.0)
-one(::Type{DoubleFloat64{T}}) where T = DoubleFloat64{T}(1.0, 0.0)
+Base.one(::DoubleFloat64{T}) where T = DoubleFloat64{T}(1.0, 0.0)
+Base.one(::Type{DoubleFloat64{T}}) where T = DoubleFloat64{T}(1.0, 0.0)
 
 Base.convert(::Type{T}, a::DoubleFloat64) where {T<:AbstractFloat} = convert(T, a.hi)
 Base.convert(::Type{BigFloat}, a::DoubleFloat64) = big(a.hi) + big(a.lo)
