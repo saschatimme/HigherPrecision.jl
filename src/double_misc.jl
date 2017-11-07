@@ -125,3 +125,22 @@ Base.rand(::Type{Complex{DoubleFloat64}}) = rand(Complex{FastDouble})
 Base.rand(::Type{Complex{DoubleFloat64}}, dims::Vararg{Int, N}) where N = rand(Complex{FastDouble}, dims)
 Base.rand(rng::AbstractRNG, ::Type{Complex{DoubleFloat64}}) = rand(rng, Complex{FastDouble})
 Base.rand(rng::AbstractRNG, ::Type{Complex{DoubleFloat64}}, dims::Vararg{Int, N}) where N = rand(rng, Complex{FastDouble}, dims)
+
+function Base.decompose(a::DoubleFloat64) ::Tuple{Int128, Int, Int}
+      hi, lo = a.hi, a.lo
+      num1, pow1, den1 = Base.decompose(hi)
+      num2, pow2, den2 = Base.decompose(lo)
+
+      num = Int128(num1)
+
+      pdiff = pow1 - pow2
+      shift = min(pdiff, 52)
+      signed_num = den1 * (Int128(num) << shift) # den1 is +1/-1
+      signed_num += den2 * (num2 >> (pdiff - shift)) # den2 is +1/-1
+
+      num = abs(signed_num)
+      den = signed_num ≥ 0 ? 1 : -1
+      pow = pow1 - shift
+
+      num, pow, den
+end

@@ -126,6 +126,9 @@ using Base.Test
         z = DoubleFloat64(rand() * 2 - 1)
         @test asin(z) ≈ asin(big(z)) atol=1e-30
         @test acos(z) ≈ acos(big(z)) atol=1e-30
+
+        n, p, d = Base.decompose(x)
+        @test x ≈ BigFloat(n) * BigFloat(2)^p / BigFloat(d) 
     end
 
 
