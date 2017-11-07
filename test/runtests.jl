@@ -119,7 +119,7 @@ using Base.Test
         end
         @test cosh(x) ≈ cosh(big(x)) atol=1e-20
 
-        sin_x, cos_x = sincos(x)
+        sin_x, cos_x = HigherPrecision.sincos(x)
         @test sin_x ≈ sin(big(x)) atol=1e-30
         @test cos_x ≈ cos(big(x)) atol=1e-30
 
@@ -128,7 +128,7 @@ using Base.Test
         @test acos(z) ≈ acos(big(z)) atol=1e-30
 
         n, p, d = Base.decompose(x)
-        @test x ≈ BigFloat(n) * BigFloat(2)^p / BigFloat(d) 
+        @test x ≈ BigFloat(n) * BigFloat(2)^p / BigFloat(d)
     end
 
 
@@ -163,7 +163,7 @@ using Base.Test
         end
         @test cosh(x) ≈ cosh(big(x)) atol=1e-20
 
-        sin_x, cos_x = sincos(x)
+        sin_x, cos_x = HigherPrecision.sincos(x)
         @test sin_x ≈ sin(big(x)) atol=1e-30
         @test cos_x ≈ cos(big(x)) atol=1e-30
 
