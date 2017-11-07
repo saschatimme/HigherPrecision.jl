@@ -1,5 +1,6 @@
 export DoubleFloat64, FastDouble, AccurateDouble, sincosh,
-double_square, double_add, double_mul, double_div, double_sub, double_sqrt
+double_square, double_add, double_mul, double_div, double_sub, double_sqrt,
+square
 
 
 """
