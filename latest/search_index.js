@@ -45,7 +45,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Compute mode",
     "title": "Compute Mode",
     "category": "section",
-    "text": "For addition, subtraction and division we implement two versions, a accurate one (which satisfies an IEEE style error bound) and a less accurate one which is significantly faster. We leverage Julia's type system to support both versions seamlessly."
+    "text": "For addition, subtraction and division we implement two versions, a accurate one (which satisfies an IEEE style error bound) and a less accurate one which is significantly faster. We leverage Julia\'s type system to support both versions seamlessly."
 },
 
 {
@@ -129,9 +129,9 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "computemode.html#What's-the-difference-exactly?-1",
+    "location": "computemode.html#What\'s-the-difference-exactly?-1",
     "page": "Compute mode",
-    "title": "What's the difference exactly?",
+    "title": "What\'s the difference exactly?",
     "category": "section",
     "text": "As an example, here are the implementations for addition for DoubleFloat64s:function accurate_add(a::DoubleFloat64, b::DoubleFloat64)\n    s1, s2 = two_sum(a.hi, b.hi)\n    t1, t2 = two_sum(a.lo, b.lo)\n    s2 += t1\n    s1, s2 = quick_two_sum(s1, s2);\n    s2 += t2\n    s1, s2 = quick_two_sum(s1, s2);\n\n    AccurateDouble(s1, s2);\nend\n\nfunction fast_add(a::DoubleFloat64, b::DoubleFloat64)\n    hi, lo = two_sum(a.hi, b.hi)\n    lo += (a.lo + b.lo)\n    hi, lo = quick_two_sum(hi, lo)\n\n    FastDouble(hi, lo);\nendOne can see that the accurate one needs around twice as many instructions."
 },
