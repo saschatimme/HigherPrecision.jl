@@ -62,6 +62,7 @@ using Base.Test
     @test x + 2 isa FastDouble
     @test 2 + x isa FastDouble
 
+    @test im * rand(DoubleFloat64) isa Complex{FastDouble}
     @test x < 2 * x
     @test x ≤ x
     @test convert(Float64, x) ≤ x

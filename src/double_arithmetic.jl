@@ -129,6 +129,7 @@ end
 end
 *(a::Float64, b::DoubleFloat64) = b * a
 *(a::Integer, b::DoubleFloat64) = b * float(a)
+*(a::Bool, b::DoubleFloat64) = b * convert(Float64, a)
 *(a::DoubleFloat64, b::Integer) = a * float(b)
 
 
