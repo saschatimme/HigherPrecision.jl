@@ -1,7 +1,7 @@
 export sincosh
 
 # Precomputed values
-const inv_fact = [DoubleFloat64(1.0 / BigFloat(factorial(k))) for k = 3:17]
+const inv_fact = [DoubleFloat64(1.0 / BigFloat(factorial(Int64(k)))) for k = 3:17]
 const ninv_fact = length(inv_fact)
 
 
