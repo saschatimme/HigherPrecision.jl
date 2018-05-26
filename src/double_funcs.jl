@@ -1,7 +1,8 @@
 export sincosh
 
+using StaticArrays
 # Precomputed values
-const inv_fact = [DoubleFloat64(1.0 / BigFloat(factorial(k))) for k = 3:17]
+const inv_fact = SVector{15}([DoubleFloat64(1.0 / BigFloat(factorial(k))) for k = Int64(3):Int64(17)])
 const ninv_fact = length(inv_fact)
 
 
