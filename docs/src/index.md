@@ -1,7 +1,7 @@
 # Introduction
 
 HigherPrecision defines the following subtypes of `AbstractFloat`
-* `DoubleFloat64` - A 128 bit number type with around 30 bits of precision.
+* `DoubleFloat64` - A 128 bit number type with around 30 digits of precision.
 
 These types are intended as a drop-in replacement for `Float64` and `BigFloat`.
 Besides the basic arithmetic functions the following mathematical functions are defined:
