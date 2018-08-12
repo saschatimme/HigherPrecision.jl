@@ -1,3 +1,5 @@
+**This package will not be updated for Julia 1.0 / 0.7. It is recommended to use [DoubleFloats.jl](https://github.com/JuliaMath/DoubleFloats.jl) instead.**
+
 # Introduction
 
 | **Documentation** | **Build Status** |
